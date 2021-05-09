@@ -11,6 +11,9 @@ def click(x,y):
 while keyboard.is_pressed('e')== False :
     if keyboard.is_pressed('a')==True :
         continue
+    ''''
+    These valuse changes based on the resolution of game.
+    ''''
     if pyautogui.pixel(369,580)[0] == 0:
         click(369,580)
     if pyautogui.pixel(457,580)[0] == 0:
