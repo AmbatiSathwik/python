@@ -1,72 +1,43 @@
-board=[
-    [5,3,0,0,7,0,0,0,0],
-    [6,0,0,1,9,5,0,0,0],
-    [0,9,8,0,0,0,0,6,0],
-    [8,0,0,0,6,0,0,0,3],
-    [4,0,0,8,0,3,0,0,1],
-    [7,0,0,0,2,0,0,0,6],
-    [0,6,0,0,0,0,2,8,0],
-    [0,0,0,4,1,9,0,0,5],
-    [0,0,0,0,8,0,0,7,9]
-]
-def solve(bo):
+def empty(su):
+    for i in range(9):
+        for j in range(9):
+            if su[i][j] == 0:
+                return i,j
+    return None
 
-    find = find_empty(bo)
-    if not find:
-        return True
-    else:
-        row, col = find
-    for i in range(1,10):
-        if valid(bo, i, (row, col)):
-            bo[row][col] = i
-
-            if solve(bo):
-                return True
-            bo[row][col] = 0
-
-    return False
-
-
-
-def valid(bo, num, pos):
-    # check row
-    for i in range (len(bo[0])):
-        if bo[pos[0]][i] == num and pos[1] != i:
+def isvalid(su,val,row,col):
+    for i in range(9):
+        if su[row][i] == val and i != col:
             return False
-    # check column
-    for i in range (len(bo)):
-        if bo[i][pos[1]] == num and pos[0] != i:
+    for i in range(9):
+        if su[i][col] == val and i != row:
             return False
-    # check box
-    box_x = pos[1] // 3
-    box_y = pos[0] // 3
-
-    for i in range(box_y * 3, box_y*3 + 3):
-        for j in range(box_x * 3, box_x*3 + 3):
-            if bo[i][j] == num and (i,j) != pos:
+    for i in range((row//3)*3, (row//3)*3 + 3):
+        for j in range((col//3)*3, (col//3)*3 + 3):
+            if su[i][j] == val and (i,j) != (row,col):
                 return False
     return True
 
-def print_board(bo) :
-    for i in range(len(bo)) :
-        if i % 3 == 0 and i != 0:
-            print("_ _ _ _ _ _ _ _ _ _ _ _ ")
-        for j in range (len(bo[0])):
-            if j % 3 == 0 and j != 0:
-                print(" | " , end="")
-            if j == 8:
-                print(bo[i][j])
-            else:
-                print(str(bo[i][j])+ " " , end="")
-def find_empty(bo):
-    for i in range (len(bo)):
-        for j in range (len(bo[0])):
-            if bo[i][j] == 0:
-                return (i, j)
-    return None
+def solve(su):
+    if not empty(su):
+        return True
+    else:
+        row,col = empty(su)
+    for i in range(1,10):
+        if isvalid(su,i,row,col):
+            su[row][col] = i
 
-    
-print_board(board)
-solve(board)
-print("________________________")
-print_board(board)
+            if solve(su):
+                return True
+
+            su[row][col] = 0
+    return False
+
+sudoku = [[0,1,0,0,8,9,0,0,4],[7,0,0,0,0,0,3,0,0],[0,0,0,3,0,6,5,0,1],[9,7,1,4,0,3,2,8,0],[0,6,3,5,9,2,1,4,0],[5,0,0,0,0,0,9,6,0],
+[4,0,7,0,3,5,0,0,0],[0,3,8,0,0,0,4,0,0],[0,0,0,8,0,0,0,0,9]]
+print(sudoku)
+solve(sudoku)
+print(sudoku)
+
+
+
