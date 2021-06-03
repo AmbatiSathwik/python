@@ -1,0 +1,11 @@
+import cv2
+import numpy as np
+
+blank = np.zeros((500,500), dtype = 'uint8')
+
+img = cv2.imread('pics/bird.jpg')
+cv2.imshow('bird',img)
+
+
+
+cv2.waitKey(0)
