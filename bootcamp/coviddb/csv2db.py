@@ -8,10 +8,9 @@ def insert_csv_file(fname):
 
     dbconn = pg.connect(database="covidcases")
     cursor = dbconn.cursor()
-
+    cursor.execute("DELETE FROM covid_data")
     f = open(fname)
     reader = csv.reader(f)
-
     for (
         state,
         total_cases,
